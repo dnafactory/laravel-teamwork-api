@@ -1,0 +1,30 @@
+{
+  "name": "dnafactory/laravel-teamwork-api",
+  "description": "PHP integration with Teamwork's API for laravel",
+  "homepage": "https://github.com/danielrussob/laravel-teamwork-api",
+  "license": "MIT",
+  "require": {
+    "php": ">=7.0.0",
+    "dnafactory/teamwork-api": "^1"
+  },
+  "authors": [
+    {
+      "name": "Daniel Russo",
+      "email": "daniel@dnafactory.it",
+      "role": "Developer"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "DNAFactory\\Teamwork\\": ""
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "DNAFactory\\Teamwork\\TeamworkServiceProvider"
+      ]
+    }
+  },
+  "prefer-stable": true
+}
