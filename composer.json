@@ -1,6 +1,7 @@
 {
   "name": "dnafactory/laravel-teamwork-api",
   "description": "PHP integration with Teamwork's API for laravel",
+  "keywords": ["Laravel"],
   "homepage": "https://github.com/danielrussob/laravel-teamwork-api",
   "license": "MIT",
   "require": {
