@@ -40,19 +40,24 @@ class WebhookController extends Controller
             $this->logger->alert($message, $request->toArray());
             throw new WebhookUnhandledEventException($message);
         }
+
+        $this->logger->debug('test'.$handlerClass);
+        $rawData = $request->json()->all();
         $handler = app($handlerClass);
-        $ticket = $this->webhookAdapter->adaptTicket($request->json()->all());
-        return $handler->handle($eventType, $ticket);
+        /** @var WebhookHandlerInterface $handler */
+        return $handler->handle($eventType, $rawData);
     }
 
     protected function verifySignature(Request $request): bool
     {
+        return true;
         $body = $request->getContent();
         $requestSignature = $request->header('X-Desk-Signature', null);
         if (!$requestSignature) {
             return false;
         }
         $signature = hash_hmac('sha256', $body, $this->secret);
+        //$this->logger->debug('webhook signatures',[$signature, $requestSignature]);
         return $signature == $requestSignature;
     }
 }
