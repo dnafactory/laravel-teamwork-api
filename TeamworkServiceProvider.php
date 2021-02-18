@@ -93,6 +93,8 @@ class TeamworkServiceProvider extends ServiceProvider
         $tokenProjects = config('teamwork.projects.token');
         $routerProjects = new Endpoints\Router();
 
+        $routerProjects->registerEndpoint($this->app->make(Endpoints\Desk\Users::class));
+
         $this->app->singleton(RawEndpoints\Projects\Timelogs::class,
             function () use ($baseUrlProjects, $tokenProjects) {
                 $rawTimelogs = new RawEndpoints\Projects\Timelogs(app(HttpClient::class));
