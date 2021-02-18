@@ -20,51 +20,48 @@ class TeamworkServiceProvider extends ServiceProvider
 
     public function register()
     {
-
         $baseUrl = config('teamwork.base_url');
         $tokenDesk = config('teamwork.desk.token');
 
         // raw endpoints
-        $baseUrlDesk = $baseUrl . '/desk/api';
-
-        $this->app->singleton(RawEndpoints\Desk\Tickets::class, function () use ($baseUrlDesk, $tokenDesk) {
+        $this->app->singleton(RawEndpoints\Desk\Tickets::class, function () use ($baseUrl, $tokenDesk) {
             $rawTickets = new RawEndpoints\Desk\Tickets(app(HttpClient::class));
-            return $rawTickets->setBaseUrl($baseUrlDesk)->setToken($tokenDesk);
+            return $rawTickets->setBaseUrl($baseUrl)->setToken($tokenDesk);
         });
 
-        $this->app->singleton(RawEndpoints\Desk\Timelogs::class, function () use ($baseUrlDesk, $tokenDesk) {
+        $this->app->singleton(RawEndpoints\Desk\Timelogs::class, function () use ($baseUrl, $tokenDesk) {
             $rawTimelogs = new RawEndpoints\Desk\Timelogs(app(HttpClient::class));
-            return $rawTimelogs->setBaseUrl($baseUrlDesk)->setToken($tokenDesk);
+            return $rawTimelogs->setBaseUrl($baseUrl)->setToken($tokenDesk);
         });
 
-        $this->app->singleton(RawEndpoints\Desk\Users::class, function () use ($baseUrlDesk, $tokenDesk) {
+        $this->app->singleton(RawEndpoints\Desk\Users::class, function () use ($baseUrl, $tokenDesk) {
             $rawUsers = new RawEndpoints\Desk\Users(app(HttpClient::class));
-            return $rawUsers->setBaseUrl($baseUrlDesk)->setToken($tokenDesk);
+            return $rawUsers->setBaseUrl($baseUrl)->setToken($tokenDesk);
         });
 
-        $this->app->singleton(RawEndpoints\Desk\Customers::class, function () use ($baseUrlDesk, $tokenDesk) {
+        $this->app->singleton(RawEndpoints\Desk\Customers::class, function () use ($baseUrl, $tokenDesk) {
             $rawCustomers = new RawEndpoints\Desk\Customers(app(HttpClient::class));
-            return $rawCustomers->setBaseUrl($baseUrlDesk)->setToken($tokenDesk);
+            return $rawCustomers->setBaseUrl($baseUrl)->setToken($tokenDesk);
         });
 
-        $this->app->singleton(RawEndpoints\Desk\Companies::class, function () use ($baseUrlDesk, $tokenDesk) {
+        $this->app->singleton(RawEndpoints\Desk\Companies::class, function () use ($baseUrl, $tokenDesk) {
             $rawCompanies = new RawEndpoints\Desk\Companies(app(HttpClient::class));
-            return $rawCompanies->setBaseUrl($baseUrlDesk)->setToken($tokenDesk);
+            return $rawCompanies->setBaseUrl($baseUrl)->setToken($tokenDesk);
         });
 
-        $this->app->singleton(RawEndpoints\Desk\Contacts::class, function () use ($baseUrlDesk, $tokenDesk) {
+        $this->app->singleton(RawEndpoints\Desk\Contacts::class, function () use ($baseUrl, $tokenDesk) {
             $rawContacts = new RawEndpoints\Desk\Contacts(app(HttpClient::class));
-            return $rawContacts->setBaseUrl($baseUrlDesk)->setToken($tokenDesk);
+            return $rawContacts->setBaseUrl($baseUrl)->setToken($tokenDesk);
         });
 
-        $this->app->singleton(RawEndpoints\Desk\Inboxes::class, function () use ($baseUrlDesk, $tokenDesk) {
+        $this->app->singleton(RawEndpoints\Desk\Inboxes::class, function () use ($baseUrl, $tokenDesk) {
             $rawInboxes = new RawEndpoints\Desk\Inboxes(app(HttpClient::class));
-            return $rawInboxes->setBaseUrl($baseUrlDesk)->setToken($tokenDesk);
+            return $rawInboxes->setBaseUrl($baseUrl)->setToken($tokenDesk);
         });
 
-        $this->app->singleton(RawEndpoints\Desk\CustomFields::class, function () use ($baseUrlDesk, $tokenDesk) {
+        $this->app->singleton(RawEndpoints\Desk\CustomFields::class, function () use ($baseUrl, $tokenDesk) {
             $rawCustomFields = new RawEndpoints\Desk\CustomFields(app(HttpClient::class));
-            return $rawCustomFields->setBaseUrl($baseUrlDesk)->setToken($tokenDesk);
+            return $rawCustomFields->setBaseUrl($baseUrl)->setToken($tokenDesk);
         });
 
         $this->app->singleton(Endpoints\Router::class);
@@ -88,23 +85,21 @@ class TeamworkServiceProvider extends ServiceProvider
         $this->app->make(Endpoints\Desk\CustomFields::class);
         $this->app->make(Endpoints\Desk\CustomFieldOptions::class);
 
-
-        $baseUrlProjects = $baseUrl . '/projects/api';
         $tokenProjects = config('teamwork.projects.token');
         $routerProjects = new Endpoints\Router();
 
         $routerProjects->registerEndpoint($this->app->make(Endpoints\Desk\Users::class));
 
         $this->app->singleton(RawEndpoints\Projects\Timelogs::class,
-            function () use ($baseUrlProjects, $tokenProjects) {
+            function () use ($baseUrl, $tokenProjects) {
                 $rawTimelogs = new RawEndpoints\Projects\Timelogs(app(HttpClient::class));
-                return $rawTimelogs->setBaseUrl($baseUrlProjects)->setToken($tokenProjects);
+                return $rawTimelogs->setBaseUrl($baseUrl)->setToken($tokenProjects);
             });
 
         $this->app->singleton(RawEndpoints\Projects\Tasks::class,
-            function () use ($baseUrlProjects, $tokenProjects) {
+            function () use ($baseUrl, $tokenProjects) {
                 $rawTimelogs = new RawEndpoints\Projects\Tasks(app(HttpClient::class));
-                return $rawTimelogs->setBaseUrl($baseUrlProjects)->setToken($tokenProjects);
+                return $rawTimelogs->setBaseUrl($baseUrl)->setToken($tokenProjects);
             });
 
         $this->app->singleton(Endpoints\Projects\Timelogs::class, function () use ($routerProjects) {
