@@ -88,7 +88,7 @@ class TeamworkServiceProvider extends ServiceProvider
         $tokenProjects = config('teamwork.projects.token');
         $routerProjects = new Endpoints\Router();
 
-        $routerProjects->registerEndpoint($this->app->make(Endpoints\Desk\Users::class));
+        //$routerProjects->registerEndpoint($this->app->make(Endpoints\Desk\Users::class));
 
         $this->app->singleton(RawEndpoints\Projects\Timelogs::class,
             function () use ($baseUrl, $tokenProjects) {
@@ -102,6 +102,18 @@ class TeamworkServiceProvider extends ServiceProvider
                 return $rawTimelogs->setBaseUrl($baseUrl)->setToken($tokenProjects);
             });
 
+        $this->app->singleton(RawEndpoints\Projects\Teams::class,
+            function () use ($baseUrl, $tokenProjects) {
+                $rawTeams = new RawEndpoints\Projects\Teams(app(HttpClient::class));
+                return $rawTeams->setBaseUrl($baseUrl)->setToken($tokenProjects);
+            });
+
+        $this->app->singleton(RawEndpoints\Projects\People::class,
+            function () use ($baseUrl, $tokenProjects) {
+                $rawPeople = new RawEndpoints\Projects\People(app(HttpClient::class));
+                return $rawPeople->setBaseUrl($baseUrl)->setToken($tokenProjects);
+            });
+
         $this->app->singleton(Endpoints\Projects\Timelogs::class, function () use ($routerProjects) {
             $rawTimelogs = app(RawEndpoints\Projects\Timelogs::class);
             return new Endpoints\Projects\Timelogs($rawTimelogs, $routerProjects);
@@ -111,6 +123,21 @@ class TeamworkServiceProvider extends ServiceProvider
             $rawTasks = app(RawEndpoints\Projects\Tasks::class);
             return new Endpoints\Projects\Tasks($rawTasks, $routerProjects);
         });
+
+        $this->app->singleton(Endpoints\Projects\Teams::class, function () use ($routerProjects) {
+            $rawTeams = app(RawEndpoints\Projects\Teams::class);
+            return new Endpoints\Projects\Teams($rawTeams, $routerProjects);
+        });
+
+        $this->app->singleton(Endpoints\Projects\People::class, function () use ($routerProjects) {
+            $rawPeople = app(RawEndpoints\Projects\People::class);
+            return new Endpoints\Projects\People($rawPeople, $routerProjects);
+        });
+
+        $this->app->make(Endpoints\Projects\People::class);
+        $this->app->make(Endpoints\Projects\Teams::class);
+        $this->app->make(Endpoints\Projects\Tasks::class);
+        $this->app->make(Endpoints\Projects\Timelogs::class);
 
 
     }
