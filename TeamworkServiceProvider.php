@@ -132,6 +132,12 @@ class TeamworkServiceProvider extends ServiceProvider
                 return $rawProjects->setBaseUrl($baseUrl)->setToken($tokenProjects);
             });
 
+        $this->app->singleton(RawEndpoints\Projects\TodoLists::class,
+            function () use ($baseUrl, $tokenProjects) {
+                $rawTodoLists = new RawEndpoints\Projects\TodoLists(app(HttpClient::class));
+                return $rawTodoLists->setBaseUrl($baseUrl)->setToken($tokenProjects);
+            });
+
 
         $this->app->singleton(Endpoints\Projects\Timelogs::class, function () use ($routerProjects) {
             $rawTimelogs = app(RawEndpoints\Projects\Timelogs::class);
@@ -168,6 +174,11 @@ class TeamworkServiceProvider extends ServiceProvider
             return new Endpoints\Projects\Projects($rawProjects, $routerProjects);
         });
 
+        $this->app->singleton(Endpoints\Projects\TodoLists::class, function () use ($routerProjects) {
+            $rawTodoLists = app(RawEndpoints\Projects\TodoLists::class);
+            return new Endpoints\Projects\TodoLists($rawTodoLists, $routerProjects);
+        });
+
         $this->app->make(Endpoints\Projects\People::class);
         $this->app->make(Endpoints\Projects\Teams::class);
         $this->app->make(Endpoints\Projects\Tasks::class);
@@ -175,6 +186,7 @@ class TeamworkServiceProvider extends ServiceProvider
         $this->app->make(Endpoints\Projects\Tags::class);
         $this->app->make(Endpoints\Projects\Companies::class);
         $this->app->make(Endpoints\Projects\Projects::class);
+        $this->app->make(Endpoints\Projects\TodoLists::class);
 
     }
 }
