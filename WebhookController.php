@@ -41,7 +41,7 @@ class WebhookController extends Controller
             throw new WebhookUnhandledEventException($message);
         }
 
-        $this->logger->debug('test'.$handlerClass);
+        //$this->logger->debug('test'.$handlerClass);
         $rawData = $request->json()->all();
         $handler = app($handlerClass);
         /** @var WebhookHandlerInterface $handler */
