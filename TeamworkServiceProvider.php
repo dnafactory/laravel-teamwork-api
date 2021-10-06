@@ -53,6 +53,10 @@ class TeamworkServiceProvider extends ServiceProvider
         $this->app->when(RawEndpoints\Desk\CustomFields::class)->needs('$token')->give($tokenDesk);
         $this->app->singleton(RawEndpoints\Desk\CustomFields::class);
 
+        $this->app->when(RawEndpoints\Desk\Messages::class)->needs('$baseUrl')->give($baseUrl);
+        $this->app->when(RawEndpoints\Desk\Messages::class)->needs('$token')->give($tokenDesk);
+        $this->app->singleton(RawEndpoints\Desk\Messages::class);
+
         $this->app->when(RawEndpoints\Projects\Timelogs::class)->needs('$baseUrl')->give($baseUrl);
         $this->app->when(RawEndpoints\Projects\Timelogs::class)->needs('$token')->give($tokenProjects);
         $this->app->singleton(RawEndpoints\Projects\Timelogs::class);
@@ -93,6 +97,7 @@ class TeamworkServiceProvider extends ServiceProvider
         $this->app->singleton(Endpoints\Desk\Inboxes::class);
         $this->app->singleton(Endpoints\Desk\CustomFields::class);
         $this->app->singleton(Endpoints\Desk\CustomFieldOptions::class);
+        $this->app->singleton(Endpoints\Desk\Messages::class);
         $this->app->singleton(Endpoints\Projects\Timelogs::class);
         $this->app->singleton(Endpoints\Projects\Timelogs::class);
         $this->app->singleton(Endpoints\Projects\Tasks::class);
@@ -114,6 +119,7 @@ class TeamworkServiceProvider extends ServiceProvider
             Endpoints\Desk\Inboxes::class,
             Endpoints\Desk\CustomFields::class,
             Endpoints\Desk\CustomFieldOptions::class,
+            Endpoints\Desk\Messages::class,
             Endpoints\Projects\People::class,
             Endpoints\Projects\Teams::class,
             Endpoints\Projects\Tasks::class,
